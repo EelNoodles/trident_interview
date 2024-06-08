@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interview_trident/course_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,21 +75,21 @@ class _MyHomePageState extends State<MyHomePage> {
       Course(id: "1",
           instructorId: "1",
           name: "基礎程式設計",
-          description: "",
+          description: "基礎程式設計課程",
           startTime: "10:00",
           endTime: "12:00",
           week: 2),
       Course(id: "2",
           instructorId: "1",
           name: "人工智慧總整與實作",
-          description: "",
+          description: "人工智慧總整與實作課程",
           startTime: "14:00",
           endTime: "16:00",
           week: 4),
       Course(id: "3",
           instructorId: "1",
           name: "訊號與系統",
-          description: "",
+          description: "訊號與系統課程",
           startTime: "10:00",
           endTime: "12:00",
           week: 5),
@@ -160,7 +161,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: Text(course.name),
                           subtitle: Text("每週${weekInZh[course.week]}, ${course.startTime}~${course.endTime}"),
                           trailing: IconButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => CourseDetail(courseData: course)));
+                            },
                             icon: const Icon(Icons.arrow_forward_ios_rounded, size: 20),
                           ),
                         );
