@@ -6,6 +6,7 @@ void main() {
 
 class Course {
   final String id;
+  final String instructorId;
   final String name;
   final String description;
   final String startTime;
@@ -14,11 +15,12 @@ class Course {
 
   Course(
       {required this.id,
-      required this.name,
-      required this.description,
-      required this.startTime,
-      required this.endTime,
-      required this.week});
+        required this.instructorId,
+        required this.name,
+        required this.description,
+        required this.startTime,
+        required this.endTime,
+        required this.week});
 }
 
 class Instructor {
@@ -26,10 +28,8 @@ class Instructor {
   final String name;
   final String imageUrl;
   final String type;
-  final List<Course> courses;
 
-  Instructor({required this.id, required this.name, required this.imageUrl, required this.type,
-   required this.courses});
+  Instructor({required this.id, required this.name, required this.imageUrl, required this.type});
 }
 
 class MyApp extends StatelessWidget {
@@ -57,41 +57,41 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late List<Instructor> _instructors;
+  late List<Course> _courses;
   late List<bool> isExpended;
 
   @override
   void initState() {
     super.initState();
     _instructors = [
-      Instructor(id: "1", name: "Albert Flores", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Demonstrator",
-          courses: [
-            Course(id: "1",
-                name: "基礎程式設計",
-                description: "",
-                startTime: "10:00",
-                endTime: "12:00",
-                week: 2),
-            Course(id: "2",
-                name: "人工智慧總整與實作",
-                description: "",
-                startTime: "14:00",
-                endTime: "16:00",
-                week: 4),
-            Course(id: "3",
-                name: "訊號與系統",
-                description: "",
-                startTime: "10:00",
-                endTime: "12:00",
-                week: 5),
-          ]),
-      Instructor(id: "2", name: "Floyd Miles", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Lecturer",
-          courses: []),
-      Instructor(id: "3", name: "Savannah Nguyen", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Senior Lecturer",
-          courses: []),
-      Instructor(id: "4", name: "Jenny Wilson", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Professor",
-          courses: []),
-      Instructor(id: "5", name: "Floyd Miles", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Demonstrator",
-          courses: []),
+      Instructor(id: "1", name: "Albert Flores", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Demonstrator"),
+      Instructor(id: "2", name: "Floyd Miles", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Lecturer"),
+      Instructor(id: "3", name: "Savannah Nguyen", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Senior Lecturer"),
+      Instructor(id: "4", name: "Jenny Wilson", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Professor"),
+      Instructor(id: "5", name: "Floyd Miles", imageUrl: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg", type: "Demonstrator"),
+    ];
+    _courses = [
+      Course(id: "1",
+          instructorId: "1",
+          name: "基礎程式設計",
+          description: "",
+          startTime: "10:00",
+          endTime: "12:00",
+          week: 2),
+      Course(id: "2",
+          instructorId: "1",
+          name: "人工智慧總整與實作",
+          description: "",
+          startTime: "14:00",
+          endTime: "16:00",
+          week: 4),
+      Course(id: "3",
+          instructorId: "1",
+          name: "訊號與系統",
+          description: "",
+          startTime: "10:00",
+          endTime: "12:00",
+          week: 5),
     ];
     isExpended = List.generate(_instructors.length, (int index)=> false);
   }
@@ -113,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: _instructors.length,
           itemBuilder: (context, index) {
             var instructor = _instructors[index];
+            List<Course> courses = _courses.where((course) => course.instructorId == instructor.id).toList();
             return Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: ExpansionTile(
@@ -151,9 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      itemCount: instructor.courses.length,
+                      itemCount: courses.length,
                       itemBuilder: (context, index) {
-                        var course = instructor.courses[index];
+                        var course = courses[index];
                         return ListTile(
                           leading: const Icon(Icons.calendar_month_rounded),
                           title: Text(course.name),
