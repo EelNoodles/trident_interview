@@ -32,6 +32,12 @@ class CourseRepository {
   List<Course> _courses = [];
   List<Instructor> _instructors = [];
 
+  // 在實務上，會在此階段向資料庫或是本地資料庫取得初始資料。
+  // CourseRepository() {
+  //   _fetchCourses();
+  //   _fetchInstructors();
+  // }
+
   // 課程列表 (Read)
   List<Course> getCourses() {
     return _courses;
