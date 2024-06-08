@@ -62,10 +62,10 @@ class CourseRepository {
   }
 
   // 更新課程內容 (Update)
-  void updateCourseContent(String courseId, String newDescription) {
-    var courseIndex = _courses.indexWhere((course) => course.id == courseId);
+  void updateCourseContent(Course newCourse) {
+    var courseIndex = _courses.indexWhere((course) => course.id == newCourse.id);
     if (courseIndex != -1) {
-      _courses[courseIndex].description = newDescription;
+      _courses[courseIndex] = newCourse;
     }
   }
 
