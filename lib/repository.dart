@@ -22,10 +22,8 @@ class Instructor {
   String name;
   String imageUrl;
   String type;
-  List<Course> courses;
 
-  Instructor({required this.id, required this.name, required this.imageUrl, required this.type,
-    required this.courses});
+  Instructor({required this.id, required this.name, required this.imageUrl, required this.type});
 }
 
 class CourseRepository {
